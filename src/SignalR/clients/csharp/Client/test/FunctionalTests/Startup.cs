@@ -69,12 +69,12 @@ namespace Microsoft.AspNetCore.SignalR.Client.FunctionalTests
 
                 endpoints.MapHub<TestHub>("/default-nowebsockets", options => options.Transports = HttpTransportType.LongPolling | HttpTransportType.ServerSentEvents);
 
-                endpoints.MapHub<NegotiateVersion12Hub>("/negotiateProtVers12", options =>
+                endpoints.MapHub<TestHub>("/negotiateProtVers12", options =>
                 {
                     options.MinimumProtocolVersion = 12;
                 });
 
-                endpoints.MapHub<NegotiateVersionNegativeHub>("/negotiateProtVersNegative", options =>
+                endpoints.MapHub<TestHub>("/negotiateProtVersNegative", options =>
                 {
                     options.MinimumProtocolVersion = -1;
                 });

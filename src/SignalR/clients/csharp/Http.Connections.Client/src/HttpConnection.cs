@@ -429,9 +429,10 @@ namespace Microsoft.AspNetCore.Http.Connections.Client
                     urlBuilder.Path += "/";
                 }
                 urlBuilder.Path += "negotiate";
-                urlBuilder.Query = $"version={_protocolVersionNumber}";
+                //urlBuilder.Query = $"version={_protocolVersionNumber}";
+                var uri = Utils.AppendQueryString(urlBuilder.Uri, $"version={_protocolVersionNumber}");
 
-                using (var request = new HttpRequestMessage(HttpMethod.Post, urlBuilder.Uri))
+                using (var request = new HttpRequestMessage(HttpMethod.Post, uri))
                 {
                     // Corefx changed the default version and High Sierra curlhandler tries to upgrade request
                     request.Version = new Version(1, 1);
@@ -468,7 +469,7 @@ namespace Microsoft.AspNetCore.Http.Connections.Client
                 throw new FormatException("Invalid connection id.");
             }
 
-            return Utils.AppendQueryString(url, "id=" + connectionId);
+            return Utils.AppendQueryString(url, $"version={_protocolVersionNumber}&id=" + connectionId);
         }
 
         private async Task StartTransport(Uri connectUrl, HttpTransportType transportType, TransferFormat transferFormat, CancellationToken cancellationToken)

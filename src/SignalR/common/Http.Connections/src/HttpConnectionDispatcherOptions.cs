@@ -59,9 +59,9 @@ namespace Microsoft.AspNetCore.Http.Connections
         public long ApplicationMaxBufferSize { get; set; }
 
         /// <summary>
-        /// Gets or sets the minimum protocol verison to supported by the server.
-        /// The default value is 1, the lowest possible protocol version.
+        /// Gets or sets the minimum protocol verison supported by the server.
+        /// The default value is 0, the lowest possible protocol version.
         /// </summary>
-        public int MinimumProtocolVersion { get; set; } = 1;
+        public int MinimumProtocolVersion { get; set; } = 0;
     }
 }
