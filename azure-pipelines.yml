@@ -1,34 +1,27 @@
-# ASP.NET
-# Build and test ASP.NET projects.
-# Add steps that publish symbols, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+[11:17 AM, 10/3/2019] Nag: pool:
+  name: Hosted Windows 2019 with VS2019
+  demands: azureps
 
-trigger:
-- master
+stages:
+- stage: ARM-Build(DEV)
+  steps:
+  - task: AzurePowerShell@1
+    inputs:
+      azureSubscription: 'GTT1-PZI-GTUS-N-SUB005'
+      ScriptPath: 'AzureResourceGroupDemo/Deploy-AzureResourceGroup.ps1'
+      ScriptArguments: -ResourceGroupName 'demogroup' -ResourceGroupLocation 'centralus' 
+      azurePowerShellVersion: LatestVersion
 
-pool:
-  vmImage: 'windows-latest'
-
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
-
-steps:
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
-
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+  - task: AzurePowerShell@2
+    inputs:
+      azureSubscription: 'GTT1-PZI-GTUS-N-SUB005'
+      ScriptPath: 'AzureResourceGroupDemo/Deploy-AzureResourceGroup.ps1'
+      ScriptArguments: -ResourceGroupName 'demogroup' -ResourceGroupLocation 'centralus' 
+      azurePowerShellVersion: LatestVersion
+  
+  - task: AzurePowerShell@3
+    inputs:
+      azureSubscription: 'GTT1-PZI-GTUS-N-SUB005'
+      ScriptPath: 'AzureResourceGroupDemo/Deploy-AzureResourceGroup.ps1'
+      ScriptArguments: -ResourceGroupName 'demogroup' -ResourceGroupLocation 'centralus' 
+      azurePowerShellVersion: LatestVersion
